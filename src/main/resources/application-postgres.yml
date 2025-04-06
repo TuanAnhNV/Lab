@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/lab
+    username: tean
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: ${JPA_OPEN_IN_VIEW:false}
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        #        generate_statistics: true
+        jdbc.batch_size: 100
+        order_inserts: true
+        order_updates: true
+        continue-on-error: true
+#        format_sql: true
