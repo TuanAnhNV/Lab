@@ -3,6 +3,7 @@ package com.tean.lab.Lab.controller;
 import com.tean.lab.Lab.service.FCMService;
 import com.tean.lab.Lab.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,5 +28,10 @@ public class LabController {
 //    public void sendNotification(@RequestBody NotificationRequest request) throws ExecutionException, InterruptedException {
 //        fcmService.sendPushNotificationService(request);
 //    }
+
+    @GetMapping("test-jenkins")
+    public String testJenkins() {
+        return "hello go to sleep";
+    }
 
 }
