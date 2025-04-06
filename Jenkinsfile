@@ -1,29 +1,17 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Build the application...'
+      stages {
+            stage('Build') {
+                steps {
+                    sh 'mvn clean install'
+                }
             }
-        }
 
-        stage('Test') {
-            steps {
-                echo 'Testing the application...'
+            stage('Deploy') {
+                steps {
+                    sh 'java -jar target/Lab-0.0.1-SNAPSHOT.jar'
+                }
             }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploy the application...'
-            }
-        }
-
-        stage('End') {
-            steps {
-                echo 'Finished pipeline.'
-            }
-        }
-    }
+      }
 }
