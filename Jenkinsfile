@@ -1,26 +1,41 @@
 pipeline {
     agent any
 
-      stages {
-            stage('Build') {
-                steps {
-                    sh 'mvn clean install'
-                }
-            }
+    environment {
+        DOCKER_IMAGE = 'lab-springboot-app:latest'
+    }
 
-            stage('Deploy') {
-                steps {
-                    sh 'java -jar target/Lab-0.0.1-SNAPSHOT.jar'
-                }
+    stages {
+        stage('Build Maven') {
+            steps {
+                sh 'mvn clean package -DskipTests'
             }
-      }
+        }
 
-      post {
-            success {
-                echo "Deployment successful!"
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $DOCKER_IMAGE .'
             }
-            failure {
-                echo "Deployment failed."
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                // Stop và remove container cũ nếu có
+                sh '''
+                    docker stop lab-app || true
+                    docker rm lab-app || true
+                    docker run -d --name lab-app -p 9001:9001 $DOCKER_IMAGE
+                '''
             }
-      }
+        }
+    }
+
+    post {
+        success {
+            echo 'App deployed successfully using Docker!'
+        }
+        failure {
+            echo 'Something went wrong!'
+        }
+    }
 }
